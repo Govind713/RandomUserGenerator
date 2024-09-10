@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Generatior</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<style>
+    body{
+        background-image: url("https://i.pinimg.com/originals/ed/52/61/ed52619a4b1b11388b62ff1ffaaaa4cc.gif");
+        background-position:center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .databox{
+        background-color: rgba(0, 0, 0, 0.447) !important;
+        box-shadow: 2px 2px 20px green;
+
+        font-size: large;
+    }
+
+    .rdmButton{
+        background-color: rgba(0, 0, 0, 0.447) !important;
+        border: 2px solid green !important;
+    }
+
+    .rdmButton:hover{
+        background-color: green !important;
+        transition: 0.5s ease-in-out;
+        font-size: larger;
+        text-shadow: 2px 2px black;
+
+    }
+
+
+</style>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="w-full max-w-sm bg-white shadow-lg rounded-lg p-6 databox">
+        <div class="text-center" id="result">
+            <!-- API data Will be INserted Here -->
+        </div>
+
+        <button onclick="randomUser()" type="button" class="mt-4 w-full bg-green-500 text-white py-2  rdmButton"><span>Generate Random User</span></button>
+
+    </div>
+</body>
+
+<script>
+    function randomUser(){
+        fetch(`https://randomuser.me/api/`)
+        .then(res => res.json()) 
+        .then(data => displayRandom(data)) 
+        .catch(err=> {
+            alert("Failed To load user Data")
+        })
+    }
+
+    function displayRandom(data){
+        console.log(data);
+
+        let userPicture = data.results[0].picture.large;
+        console.log(userPicture);
+        
+        let userName = data.results[0].name.title +" " + data.results[0].name.first + " " + data.results[0].name.last;
+        console.log(userName);
+
+        let userGender = data.results[0].gender;
+        console.log(userGender);
+
+        let userEmail = data.results[0].email;
+        console.log(userEmail);
+
+        let userLocation = data.results[0].location.city + " " + data.results[0].location.country;
+        console.log(userLocation);
+
+        let userDob =  data.results[0].dob.date + "<br> " + data.results[0].dob.age + " Years Old";
+        console.log(userDob);
+
+
+        let userPhone = data.results[0].phone;
+        console.log(userPhone);
+
+        let userNat = data.results[0].nat;
+        console.log(userNat);
+
+        htmlData = `
+            <img src="${userPicture}" alt="User Picture" class="mx-auto rounded-full w-24 h-24 mb-4">
+            <h2 class="text-white text-xl font-semibold"><b>Name: </b>${userName}</h2>
+            <p class="text-white"><b>Gender: </b>${userGender}</p>
+            <p class="text-white"><b>Email ID: </b>${userEmail}</p>
+            <p class="text-white"><b>Location: </b>${userLocation}</p>
+            <p class="text-white"><b>Date of Birth:</b> ${userDob}</p>
+            <p class="text-white"><b>Ph Number:</b> ${userPhone}</p>
+            <p class="text-white"><b>Nationality: </b>${userNat}</p>
+        `
+        result.innerHTML = htmlData;
+    }
+</script>
+</html>
+
+
+
